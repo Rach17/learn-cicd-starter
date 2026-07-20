@@ -1,10 +1,9 @@
 package auth
 
 import (
-    "testing"
+	"testing"
 	"net/http"
 	"errors"
-	"cmp"
 )
 
 // func TestSplit(t *testing.T) {
@@ -77,7 +76,14 @@ func TestGetAPIKey(t *testing.T) {
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
 			gotAPIKey, gotErr := GetAPIKey(tc.input)
-			if cmp.Compare(gotAPIKey, tc.want.apiKey) != 0 || cmp.Compare(gotErr.Error(), tc.want.err.Error()) != 0 {
+			if gotAPIKey != tc.want.apiKey {
+				t.Fatalf("GetAPIKey(%v) = (%v, %v), want (%v, %v)", tc.input, gotAPIKey, gotErr, tc.want.apiKey, tc.want.err)
+			}
+			if tc.want.err != nil {
+				if gotErr == nil || gotErr.Error() != tc.want.err.Error() {
+					t.Fatalf("GetAPIKey(%v) = (%v, %v), want (%v, %v)", tc.input, gotAPIKey, gotErr, tc.want.apiKey, tc.want.err)
+				}
+			} else if gotErr != nil {
 				t.Fatalf("GetAPIKey(%v) = (%v, %v), want (%v, %v)", tc.input, gotAPIKey, gotErr, tc.want.apiKey, tc.want.err)
 			}
 		})
