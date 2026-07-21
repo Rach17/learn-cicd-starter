@@ -1,9 +1,9 @@
 package auth
 
 import (
-	"testing"
-	"net/http"
 	"errors"
+	"net/http"
+	"testing"
 )
 
 // func TestSplit(t *testing.T) {
@@ -29,10 +29,10 @@ import (
 //     }
 // }
 
-func TestGetAPIKey(t *testing.T) { 
+func TestGetAPIKey(t *testing.T) {
 	tests := map[string]struct {
 		input http.Header
-		want struct {
+		want  struct {
 			apiKey string
 			err    error
 		}
@@ -87,5 +87,5 @@ func TestGetAPIKey(t *testing.T) {
 				t.Fatalf("GetAPIKey(%v) = (%v, %v), want (%v, %v)", tc.input, gotAPIKey, gotErr, tc.want.apiKey, tc.want.err)
 			}
 		})
-	}	
+	}
 }
